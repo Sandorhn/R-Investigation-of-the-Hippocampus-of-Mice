@@ -7,22 +7,29 @@ Certain probiotic bacteria are known to alter the mood of the animal whose gut t
 
 ## R Analysis
 First, I loaded the raw .rcc files into R
-'''library(NanoStringNorm)
+```r
+library(NanoStringNorm)
 NNS_B2<- newRccSet(
 rccFiles = dir("C:/Users/Sandor/Documents/PhD/Python/Mouse Blood Paper/Brain Nanostring/RCC files", full.names=TRUE),
-rlf = "C:/Users/Sandor/Documents/PhD/Python/Nanostring Data/RLF/NS_M_miR_v1.5.rlf"
-)'''
+rlf = "C:/Users/Sandor/Documents/PhD/Python/Nanostring Data/RLF/NS_M_miR_v1.5.rlf")
+```
 
 Next, I removed background noise from the data
-'''pcn_NNS_B2 <- posCtrlNorm(NNS_B2, summaryFunction = "sum")
+```r
+pcn_NNS_B2 <- posCtrlNorm(NNS_B2, summaryFunction = "sum")
 bgestimate_B2 <- getBackground(pcn_NNS_B2, bgReference = "negatives", summaryFunction = "mean")
-NNS_B2 <- subtractBackground(pcn_NNS_B2, bgEstimates = bgestimate_B2)'''
+NNS_B2 <- subtractBackground(pcn_NNS_B2, bgEstimates = bgestimate_B2)
+```
 
 From this expression set, I then isolated phenotype data and Expression data
-'''B2_expression <- exprs(NNS_B2)
-pDataNNS_B2 <- pData(NNS_B2)'''
+```r
+B2_expression <- exprs(NNS_B2)
+pDataNNS_B2 <- pData(NNS_B2)
+```
 and exported the CSV files for future analysis in python
-'''write.csv(B2_expression, "C:/Users/Sandor/Desktop/EMPLOYMENT/Aging Projects/Redoing Brain NNS in Python/HippocampalMIRNA_exprs_bg_removed.csv", 
+```r
+write.csv(B2_expression, "C:/Users/Sandor/Desktop/EMPLOYMENT/Aging Projects/Redoing Brain NNS in Python/HippocampalMIRNA_exprs_bg_removed.csv", 
           row.names = T)
 write.csv(pDataNNS_B2, "C:/Users/Sandor/Desktop/EMPLOYMENT/Aging Projects/Redoing Brain NNS in Python/HippocampalMIRNA_exprs_bg_removed_pdata.csv", 
-          row.names = T)'''
+          row.names = T)
+```
