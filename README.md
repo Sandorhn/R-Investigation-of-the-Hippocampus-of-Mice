@@ -99,9 +99,83 @@ pca3d(pca_NNS_B2, group = pDataNNS_B2$Feed, show.ellipses = F, radius = 5, legen
 ```
 ![3d PCA](https://user-images.githubusercontent.com/121974615/210852532-7673c8bd-8295-46c6-a4ef-75e20a3a70bf.PNG)
 
-Here we more clearly see that if not for the JB-1 outlier all three feed group clusters would ben distinct.
+Here we more clearly see that if not for the JB-1 outlier all three feed group clusters would be distinct.
 
 It was then time to move on to a differential gene expression analysis, to see if any miRNAs would be differentially expressed between feed groups, or if the insignificant adonis statistic held true.
+
+First, fitting the normalized data to a linear model,
+```r
+fit_NNS_B2 <- lmFit(NNSB2voom, mmNNS_B2)
+```
+then defining the feed group contrasts for the linear model, and using an empirical Bayes method to rank genes for differential expression.
+```r
+contrasts_NNS_B2 <- makeContrasts(JvR = rhamnosus - reuteri,
+                                  RvC = reuteri - PBS,
+                                  JvC = rhamnosus - PBS,
+                                  levels = mmNNS_B2)
+contrasts_NNS_B2
+
+fit2_NNS_B2 <- contrasts.fit(fit_NNS_B2, contrasts_NNS_B2)
+fit2_NNS_B2 <- eBayes(fit2_NNS_B2)
+```
+miRNA names were extracted from the original expression set and used to label miRNAs in the linear model.
+```r
+anno_NNS_B2 <- fData(NNS_B2) 
+anno_NNS_B2 <- select(anno_NNS_B2, GeneName)
+fit2_NNS_B2$genes <- anno_NNS_B2
+```
+Then, finally, the differential expression analysis results were examined, assuming a fold change greater than 50% in either direction to be significant.
+```r
+NNS_results_B2 <- topTable(fit2_NNS_B2, coef = 2, number = Inf)
+
+library(EnhancedVolcano)
+Evol_NNS_B2 <- EnhancedVolcano(NNS_results_B2, 
+                               lab = NNS_results_B2$GeneNames, 
+                               x = 'logFC', 
+                               y = 'adj.P.Val',
+                               xlim = c(-1.0, 1.1),
+                               ylim = c(0, 2.1),
+                               xlab = "Log10 Fold of Change", 
+                               ylab = "-Log10 adj.P-Value",
+                               title = "JB1 vs PBS (adj.P-Value<0.05, FC>1.5X)",
+                               pCutoff = 0.05, 
+                               FCcutoff = 0.176, 
+                               labSize = 4, 
+                               labCol = "black",
+                               legendLabels = c("Not Sig", 'Sig FC', 'Sig adj.P-Value', "Sig adj.P-Value and FC"),
+                               col = c("black", "grey", "grey", "red"), #ooohhh k so it only shows what you define the colours for
+                               # drawConnectors = TRUE,
+                               # widthConnectors = 0.5
+)
+Evol_NNS_B2
+```
+![miRNA Hippo JvC](https://user-images.githubusercontent.com/121974615/210856803-2a2b2afa-d80f-4765-98e8-77a32f6088ed.PNG)
+![miRNA Hippo JvR](https://user-images.githubusercontent.com/121974615/210856805-9fa400fe-ae0d-46a0-85f6-2940d1f7d0fa.PNG)
+![miRNA Hippo RvC](https://user-images.githubusercontent.com/121974615/210856807-90d6a25f-08b8-4cfb-9b02-2a09990d0b7b.PNG)
+
+But despite distinct PCA feed groups between LR6475 and PBS, no genes were differentially expressed between any groups.
+
+To try to explain the variation between feed groups seen in the PCA, I then conducted a gene set enrichment analysis, to identify if any of the similarly clustered miRNAs were responsible for targeting any of the same mRNA signalling pathways for repression.
+
+In order to do this, I used an R package called RBiomirGS (), which maps miRNAs to their mRNA targets, and performs an enrichment analysis to identify cannonical pathways that are being selectively repressed by the miRNAs.
+I conducted seperate analyses for hallmark -
+```r
+library(RBiomirGS)
+mirichB <- select(NNS_results_B2, GeneNames, logFC, adj.P.Val)
+rbiomirgs_logistic(objTitle = "NNSGSE_B_hall", mirna_DE = mirichB, 
+                   var_mirnaName = "GeneNames", var_mirnaFC = "logFC", var_mirnaP = "adj.P.Val", 
+                   mrnalist = Whole, 
+                   mrna_Weight = NULL, gs_file = "h.all.v7.4.entrez.gmt", optim_method = "IWLS", 
+                   p.adj = "fdr", parallelComputing = TRUE, clusterType = "PSOCK")
+```
+and KEGG pathways.
+```r
+rbiomirgs_logistic(objTitle = "NNSGSE_B_kegg", mirna_DE = mirichB, 
+                   var_mirnaName = "GeneNames", var_mirnaFC = "logFC", var_mirnaP = "adj.P.Val", 
+                   mrnalist = Whole, 
+                   mrna_Weight = NULL, gs_file = "kegg.v5.2.entrez.gmt", optim_method = "IWLS", 
+                   p.adj = "fdr", parallelComputing = TRUE, clusterType = "PSOCK")
+```
 
 
 
