@@ -33,3 +33,50 @@ write.csv(B2_expression, "C:/Users/Sandor/HippocampalMIRNA_exprs_bg_removed.csv"
 write.csv(pDataNNS_B2, "C:/Users/Sandor/HippocampalMIRNA_exprs_bg_removed_pdata.csv", 
           row.names = T)
 ```
+Another variable, 'Feed' meaning feed group, was then added to the phenotype data
+```r
+library(stringr)
+library(dplyr)
+pDataNNS_B2$Feed <- ""
+for (i in 1:nrow(pDataNNS_B2)){
+  if(str_detect(pDataNNS_B2$SampleID[i], "C"))
+  {pDataNNS_B2$Feed[i] <- "PBS"}
+  
+  if(str_detect(pDataNNS_B2$SampleID[i], "J"))
+  {pDataNNS_B2$Feed[i] <- "rhamnosus"}
+  
+  if(str_detect(pDataNNS_B2$SampleID[i], "R"))
+  {pDataNNS_B2$Feed[i] <- "reuteri"}
+}
+pDataNNS_B2$Feed
+```
+I then filtered out low-expressed miRNAs from the data.
+```r
+library(edgeR)
+library(limma)
+dgeTMM_B2 <- DGEList(B2_expression, group = pDataNNS_B2$Feed)
+keep.exprsB2 <- filterByExpr(dgeTMM_B2, group=pDataNNS_B2$Feed)#ohhh so dont use the logCPM for this
+fdgeTMM_B2 <- dgeTMM_B2[keep.exprsB2,, keep.lib.sizes=FALSE]
+```
+Next, I wanted to normalize the data prior to conducting a PCA.
+Nanostring data is treated like count data, and so the appropriate normalization method is the trimmed mean of M-values (TMM) normalization.
+```r
+fdgeTMM_B2 <- calcNormFactors(fdgeTMM_B2, method = "TMM")
+NNSB2voom <- voom(fdgeTMM_B2, mmNNS_B2, plot = TRUE)
+```
+![Voom Plot](https://user-images.githubusercontent.com/121974615/210846615-8ff07bdc-9730-4d13-8b32-4928466d64e5.png)
+
+The mean-variance trend plot suggests that low-expressed genes were adequately removed, as lower count size is not positively correlated with a higher standard deviation.
+Next, I performed a principal componant analysis (PCA)
+```r
+library(dplyr)
+library(ggplot2)
+pca_NNS_B2 <- prcomp(t(NNSB2voom$E))
+cbind(pDataNNS_B2, pca_NNS_B2$x) %>%
+  ggplot(aes(x = PC1, y = PC2, col=Feed, label=paste("", Feed))) + geom_point(aes(size = 4)) + theme_bw(base_size = 15) +
+  xlab("PC1: 31% variance") + ylab("PC2: 18% variance") + guides(colour = guide_legend(override.aes = list(size=5)))
+```
+![PCA](https://user-images.githubusercontent.com/121974615/210848496-3199f948-40f5-46cf-b6a9-ba90b05f4ebb.png)
+
+
+
