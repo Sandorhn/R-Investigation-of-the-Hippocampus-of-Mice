@@ -168,7 +168,7 @@ rbiomirgs_logistic(objTitle = "NNSGSE_B_hall", mirna_DE = mirichB,
                    mrna_Weight = NULL, gs_file = "h.all.v7.4.entrez.gmt", optim_method = "IWLS", 
                    p.adj = "fdr", parallelComputing = TRUE, clusterType = "PSOCK")
 ```
-and KEGG pathways.
+and KEGG pathways -
 ```r
 rbiomirgs_logistic(objTitle = "NNSGSE_B_kegg", mirna_DE = mirichB, 
                    var_mirnaName = "GeneNames", var_mirnaFC = "logFC", var_mirnaP = "adj.P.Val", 
@@ -176,6 +176,27 @@ rbiomirgs_logistic(objTitle = "NNSGSE_B_kegg", mirna_DE = mirichB,
                    mrna_Weight = NULL, gs_file = "kegg.v5.2.entrez.gmt", optim_method = "IWLS", 
                    p.adj = "fdr", parallelComputing = TRUE, clusterType = "PSOCK")
 ```
+and examined which of those pathways were significantly altered, and in which direction.
+```r
+rbiomirgs_volcano(gsadfm = NNSGSE_B_kegg_GS, topgsLabel = TRUE, fdr = TRUE, n = 
+                    50, gsLabelSize = 3, sigColour = "blue", plotWidth = 500, plotHeight = 
+                    500, xLabel = "model coefficient") 
+rbiomirgs_volcano(gsadfm = NNSGSE_B_hall_GS, topgsLabel = TRUE, fdr = TRUE, n = 
+                    50, gsLabelSize = 3, sigColour = "blue", plotWidth = 500, plotHeight = 
+                    500, xLabel = "model coefficient") 
+```
+![miRNA Hippo JvC Hallmark](https://user-images.githubusercontent.com/121974615/210858808-dda1eb60-d762-4566-a4a1-ff1859b989d8.PNG)
+![miRNA Hippo JvR Hallmark](https://user-images.githubusercontent.com/121974615/210858809-ad3a62cb-0eda-4ef1-84a7-db5b73d4b562.PNG)
+![miRNA Hippo RvC Hallmark](https://user-images.githubusercontent.com/121974615/210858811-ba3e5b65-8507-4676-9d49-4c2ff8aefd18.PNG)
+
+![miRNA Hippo JvC Kegg](https://user-images.githubusercontent.com/121974615/210858845-9cbcbfee-1e8e-45db-9db6-9b82cbbf8ce4.PNG)
+![miRNA Hippo JvR Kegg](https://user-images.githubusercontent.com/121974615/210858847-339edd2a-3f68-4f42-852d-bd5d77e7e72d.PNG)
+![miRNA Hippo RvC Kegg](https://user-images.githubusercontent.com/121974615/210858850-aee20824-6ee3-473e-a292-fcd1ff697764.PNG)
+
+Many pathways were found to be significantly altered by miRNA regulation in the hippocampus of mice. Particularly those fed LR6475.
+A positive coefficient indicates that there is less miRNA repression of the pathway, while a negative coefficient indicates increased repression of the particular pathways. As you can see, several cannonical signalling pathways involved in inflammation such as the interferon alpha and gamma are altered after psychobiotic feeding, as well as olfactory, following LR6475 feeding, which is interesting because autism is associated with an impaired sense of smell, and LR6475 alleviates autism-like behaviour in mice.
+
+With an explaination of the biological reason for the variance, I then wanted to go back and see if any other machine learning analysis could confirm that these differences between feed groups were real, and for that, I headed over to python for a battery of other machine learning tests.
 
 
 
