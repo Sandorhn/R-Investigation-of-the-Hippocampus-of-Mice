@@ -185,13 +185,12 @@ rbiomirgs_volcano(gsadfm = NNSGSE_B_hall_GS, topgsLabel = TRUE, fdr = TRUE, n =
                     50, gsLabelSize = 3, sigColour = "blue", plotWidth = 500, plotHeight = 
                     500, xLabel = "model coefficient") 
 ```
-![miRNA Hippo JvC Hallmark](https://user-images.githubusercontent.com/121974615/210858808-dda1eb60-d762-4566-a4a1-ff1859b989d8.PNG)
-![miRNA Hippo JvR Hallmark](https://user-images.githubusercontent.com/121974615/210858809-ad3a62cb-0eda-4ef1-84a7-db5b73d4b562.PNG)
-![miRNA Hippo RvC Hallmark](https://user-images.githubusercontent.com/121974615/210858811-ba3e5b65-8507-4676-9d49-4c2ff8aefd18.PNG)
-
-![miRNA Hippo JvC Kegg](https://user-images.githubusercontent.com/121974615/210858845-9cbcbfee-1e8e-45db-9db6-9b82cbbf8ce4.PNG)
-![miRNA Hippo JvR Kegg](https://user-images.githubusercontent.com/121974615/210858847-339edd2a-3f68-4f42-852d-bd5d77e7e72d.PNG)
-![miRNA Hippo RvC Kegg](https://user-images.githubusercontent.com/121974615/210858850-aee20824-6ee3-473e-a292-fcd1ff697764.PNG)
+![miRNA Hippo JvC Hallmark](https://user-images.githubusercontent.com/121974615/210861053-63285b32-174b-41fa-8f9e-4bb40d854061.PNG)
+![miRNA Hippo JvR Hallmark](https://user-images.githubusercontent.com/121974615/210861054-0efa6164-925c-4458-a327-4bfbaf532682.PNG)
+![miRNA Hippo RvC Hallmark](https://user-images.githubusercontent.com/121974615/210861055-1c968ab3-96c2-4fa9-bbb3-9c121b67cf46.PNG)
+![miRNA Hippo JvC Kegg](https://user-images.githubusercontent.com/121974615/210861086-7c0f303d-012e-4168-8a83-23b0ce746252.PNG)
+![miRNA Hippo JvR Kegg](https://user-images.githubusercontent.com/121974615/210861089-531e58e2-8f44-4e84-9302-298653cacec2.PNG)
+![miRNA Hippo RvC Kegg](https://user-images.githubusercontent.com/121974615/210861091-fe52c5f0-a379-4d0a-bb99-a98758ce411f.PNG)
 
 Many pathways were found to be significantly altered by miRNA regulation in the hippocampus of mice. Particularly those fed LR6475.
 A positive coefficient indicates that there is less miRNA repression of the pathway, while a negative coefficient indicates increased repression of the particular pathways. As you can see, several cannonical signalling pathways involved in inflammation such as the interferon alpha and gamma are altered after psychobiotic feeding, as well as olfactory, following LR6475 feeding, which is interesting because autism is associated with an impaired sense of smell, and LR6475 alleviates autism-like behaviour in mice.
