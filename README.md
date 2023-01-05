@@ -10,8 +10,8 @@ First, I loaded the raw .rcc files into R
 ```r
 library(NanoStringNorm)
 NNS_B2<- newRccSet(
-rccFiles = dir("C:/Users/Sandor/Documents/PhD/Python/Mouse Blood Paper/Brain Nanostring/RCC files", full.names=TRUE),
-rlf = "C:/Users/Sandor/Documents/PhD/Python/Nanostring Data/RLF/NS_M_miR_v1.5.rlf")
+rccFiles = dir("C:/Users/Sandor/Brain Nanostring/RCC files", full.names=TRUE),
+rlf = "C:/Users/Sandor/Nanostring Data/RLF/NS_M_miR_v1.5.rlf")
 ```
 
 Next, I removed background noise from the data
@@ -28,8 +28,8 @@ pDataNNS_B2 <- pData(NNS_B2)
 ```
 and exported the CSV files for future analysis in python
 ```r
-write.csv(B2_expression, "C:/Users/Sandor/Desktop/EMPLOYMENT/Aging Projects/Redoing Brain NNS in Python/HippocampalMIRNA_exprs_bg_removed.csv", 
+write.csv(B2_expression, "C:/Users/Sandor/HippocampalMIRNA_exprs_bg_removed.csv", 
           row.names = T)
-write.csv(pDataNNS_B2, "C:/Users/Sandor/Desktop/EMPLOYMENT/Aging Projects/Redoing Brain NNS in Python/HippocampalMIRNA_exprs_bg_removed_pdata.csv", 
+write.csv(pDataNNS_B2, "C:/Users/Sandor/HippocampalMIRNA_exprs_bg_removed_pdata.csv", 
           row.names = T)
 ```
