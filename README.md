@@ -195,9 +195,9 @@ rbiomirgs_volcano(gsadfm = NNSGSE_B_hall_GS, topgsLabel = TRUE, fdr = TRUE, n =
 Many pathways were found to be significantly altered by miRNA regulation in the hippocampus of mice. Particularly those fed LR6475.
 A positive coefficient indicates that there is less miRNA repression of the pathway, while a negative coefficient indicates increased repression of the particular pathways. As you can see, several cannonical signalling pathways involved in inflammation such as the interferon alpha and gamma are altered after psychobiotic feeding, as well as olfactory, following LR6475 feeding, which is interesting because autism is associated with an impaired sense of smell, and LR6475 alleviates autism-like behaviour in mice.
 
-With an explaination of the biological reason for the variance, I then wanted to go back and see if any other machine learning analysis could confirm that these differences between feed groups were real, and for that, I headed over to python for a battery of other machine learning tests.
+With an explaination of the biological reason for the variance, I then wanted to go back and see if any other machine learning analysis could confirm that these differences between feed groups were real, and for that, I headed over to python for a logistic regression analysis.
 
-## Python Analysis
+## Python Analysis - Logistic Regression
 
 
 
