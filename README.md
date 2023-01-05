@@ -1,4 +1,4 @@
-# R and Python Investigation: Differential miRNA Expression in the Hippocampus of Mice
+# R Investigation: Differential miRNA Expression in the Hippocampus of Mice
 ## Introduction
 Certain probiotic bacteria are known to alter the mood of the animal whose gut they are inhabiting. Lacticaseibacillus rhamnosus JB-1 (JB-1) has previously been shown to alleviate anxiety and depression-like behaviours in stressed mice following feeding, and Limosilactobacillus reuteri 6475 (LR6475) has been shown to help restore social deficits in mice (otherwise referred to as autism-like behaviour). Both of these bacterial activities have been shown to be dependant on Vegus nerve signalling from gut to brain, and in the case of JB-1, immune dependant as well. But with this said, little is known about changes to gene expression in the hippocampus of these mice, the region of the brain associated with emotion, learning, and memory. Previously, in a similar analysis we discovered that there is a great deal of mRNA altered in the blood of these animals prior to feeding with these psychoactive probiotics, but little mRNA is altered in the hippocampus. Here, I analyze nanostring data showing the changes to miRNA expression in the hippocampus of these same mice. For the sake of completeness it should also be noted that blood miRNA was also measured in these mice, but there were no changes of interest between control and experimental groups. 
 
@@ -194,10 +194,3 @@ rbiomirgs_volcano(gsadfm = NNSGSE_B_hall_GS, topgsLabel = TRUE, fdr = TRUE, n =
 
 Many pathways were found to be significantly altered by miRNA regulation in the hippocampus of mice. Particularly those fed LR6475.
 A positive coefficient indicates that there is less miRNA repression of the pathway, while a negative coefficient indicates increased repression of the particular pathways. As you can see, several cannonical signalling pathways involved in inflammation such as the interferon alpha and gamma are altered after psychobiotic feeding, as well as olfactory, following LR6475 feeding, which is interesting because autism is associated with an impaired sense of smell, and LR6475 alleviates autism-like behaviour in mice.
-
-With an explaination of the biological reason for the variance, I then wanted to go back and see if any other machine learning analysis could confirm that these differences between feed groups were real, and for that, I headed over to python for a logistic regression analysis.
-
-## Python Analysis - Logistic Regression
-
-
-
